@@ -6,12 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MONGO_URL = os.getenv("MONGO_URL")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
+DATABASE_NAME = os.getenv("DATABASE_NAME", "omtexspares") # Default added here
 
-if not MONGO_URL or not DATABASE_NAME:
-    print("CRITICAL ERROR: MONGO_URL or DATABASE_NAME is not set in environment variables.")
-    # We don't exit here to let main.py catch it and print more logs, 
-    # but we provide the warning.
+if not MONGO_URL:
+    print("CRITICAL ERROR: MONGO_URL is not set in environment variables.")
 
 client = None
 if MONGO_URL:
@@ -21,6 +19,8 @@ if MONGO_URL:
         print(f"DATABASE CONFIGURATION ERROR: {e}")
 
 def get_database():
+    if not MONGO_URL:
+        raise Exception("CRITICAL: MONGO_URL environment variable is missing!")
     if not client:
-        raise Exception("Database client not initialized. Check your MONGO_URL environment variable.")
+        raise Exception("Database client not initialized. Check your MONGO_URL.")
     return client[DATABASE_NAME]
