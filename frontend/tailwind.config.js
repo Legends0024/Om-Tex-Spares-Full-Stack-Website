@@ -8,9 +8,10 @@ export default {
     extend: {
       colors: {
         navy: "#0A1628",
-        accent: "#2563EB",
+        brandOrange: "#F4811F",
+        accent: "#F4811F",
         whatsapp: "#25D366",
-        gold: "#F59E0B"
+        gold: "#F4811F"
       }
     },
   },

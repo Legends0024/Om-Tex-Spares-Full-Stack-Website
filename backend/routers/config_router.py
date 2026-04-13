@@ -15,9 +15,9 @@ async def get_config():
     # Fallback if config is missing (seed should handle this)
     return {
         "admin_whatsapp": "918222085999",
-        "company_phone": "+91 99999 99999",
-        "company_email": "info@omtexspares.com",
-        "company_address": "Surat, Gujarat, India"
+        "company_phone": "+91 82220 85999",
+        "company_email": "omtexspares@gmail.com",
+        "company_address": "17, New Subzi Mandi, Near GVM School, PANIPAT-132103"
     }
 
 @router.put("/", response_model=AppConfig)

@@ -2,16 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from routers import auth_router, products_router, enquiries_router, access_router, config_router
+from routers import auth_router, products_router, enquiries_router, access_router, config_router, customers_router, leads_router, deals_router, admin_users_router
 from seed import seed_data
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    try:
-        await seed_data()
-    except Exception as e:
-        print(f"STARTUP ERROR during seed_data: {e}")
+    await seed_data()
     yield
     # Shutdown
 
@@ -19,8 +16,8 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
+    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -30,6 +27,10 @@ app.include_router(products_router.router, prefix="/api")
 app.include_router(enquiries_router.router, prefix="/api")
 app.include_router(access_router.router, prefix="/api")
 app.include_router(config_router.router, prefix="/api")
+app.include_router(customers_router.router, prefix="/api")
+app.include_router(leads_router.router, prefix="/api")
+app.include_router(deals_router.router, prefix="/api")
+app.include_router(admin_users_router.router, prefix="/api")
 
 @app.get("/")
 async def root():

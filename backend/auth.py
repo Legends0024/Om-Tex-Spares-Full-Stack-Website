@@ -52,6 +52,8 @@ def decode_token(token: str):
 async def get_current_admin(token: str = Depends(oauth2_scheme)):
     payload = decode_token(token)
     username: str = payload.get("sub")
+    role: str = payload.get("role")
+    full_name: str = payload.get("full_name")
     if username is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-    return {"username": username}
+    return {"username": username, "role": role, "full_name": full_name}

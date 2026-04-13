@@ -41,33 +41,38 @@ const ProductsPage = () => {
       
       <div className="bg-white border-b py-8">
         <div className="max-w-7xl mx-auto px-6">
-          <h1 className="text-3xl font-bold text-navy mb-6">Product Catalogue</h1>
+          <h1 className="text-4xl font-black text-gray-900 mb-6 tracking-tight">Product <span className="text-brandOrange">Catalogue</span></h1>
           
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <BrandFilter selected={selectedBrand} onChange={setSelectedBrand} />
             
-            <div className="relative w-full md:w-72">
+            <div className="relative w-full md:w-80">
               <input 
                 type="text" 
                 placeholder="Search name or part no..." 
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent"
+                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-brandOrange focus:border-brandOrange transition-all"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-4 top-3.5 text-gray-400 w-5 h-5" />
             </div>
           </div>
         </div>
       </div>
 
       <div className="flex-grow max-w-7xl mx-auto px-6 py-12 w-full">
-        <p className="text-gray-600 mb-6 font-medium">
-          Showing {filteredProducts.length} of {products.length} parts
-        </p>
+        <div className="flex items-center gap-2 mb-8">
+           <div className="bg-brandOrange/10 text-brandOrange px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">
+              Live Inventory
+           </div>
+           <p className="text-gray-500 font-bold text-sm">
+             Showing {filteredProducts.length} of {products.length} parts
+           </p>
+        </div>
 
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-navy"></div>
+          <div className="flex justify-center items-center py-24">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brandOrange"></div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

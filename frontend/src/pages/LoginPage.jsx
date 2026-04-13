@@ -30,53 +30,55 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center py-12 px-6">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center text-navy mb-4">
-          <div className="bg-navy p-3 rounded-full">
-            <Lock className="text-white w-8 h-8" />
+        <div className="flex justify-center mb-6">
+          <div className="bg-brandOrange p-4 rounded-3xl shadow-lg shadow-brandOrange/20 transform -rotate-6">
+            <Lock className="text-white w-10 h-10" />
           </div>
         </div>
-        <h2 className="text-center text-3xl font-extrabold text-navy">
-          Admin Portal
+        <h2 className="text-center text-4xl font-black text-gray-900 tracking-tight">
+          Admin <span className="text-brandOrange">Portal</span>
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
+        <p className="mt-2 text-center text-sm font-semibold text-gray-500 uppercase tracking-widest">
           Sign in to manage Om Tex Spares
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-xl border sm:rounded-lg sm:px-10">
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-12 px-6 shadow-2xl border border-gray-100 rounded-3xl sm:px-12">
           
           {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
-              <p className="text-red-700 text-sm">{error}</p>
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-8 rounded-r-lg">
+              <p className="text-red-700 text-sm font-bold">{error}</p>
             </div>
           )}
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-8" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Username</label>
+              <label className="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Username</label>
               <div className="mt-1">
                 <input
                   type="text"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                  className="appearance-none block w-full px-4 py-4 border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brandOrange focus:border-brandOrange transition-all"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  placeholder="admin_user"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <label className="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Password</label>
               <div className="mt-1">
                 <input
                   type="password"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                  className="appearance-none block w-full px-4 py-4 border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brandOrange focus:border-brandOrange transition-all"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
                 />
               </div>
             </div>
@@ -85,15 +87,15 @@ const LoginPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-navy hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-70 transition"
+                className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-xl text-lg font-black text-white bg-brandOrange hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brandOrange disabled:opacity-70 transition-all transform active:scale-95 shadow-brandOrange/20"
               >
                 {loading ? 'Authenticating...' : 'Sign in'}
               </button>
             </div>
           </form>
           
-          <div className="mt-6 text-center">
-            <a href="/" className="text-sm text-accent hover:underline">&larr; Back to Website</a>
+          <div className="mt-10 text-center">
+            <a href="/" className="text-sm font-bold text-gray-500 hover:text-brandOrange transition-colors">&larr; Back to Website</a>
           </div>
         </div>
       </div>
