@@ -8,6 +8,8 @@ async def seed_data():
     
     # Check if we already seeded 40 products
     products_count = await db["products"].count_documents({})
+    # Check if we already seeded 40 products
+    products_count = await db["products"].count_documents({})
     if products_count < 40:
         # Clear existing to re-seed cleanly with the 40 products
         await db["products"].delete_many({})
