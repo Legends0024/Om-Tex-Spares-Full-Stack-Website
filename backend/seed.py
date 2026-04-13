@@ -6,36 +6,44 @@ from datetime import datetime
 async def seed_data():
     db = get_database()
     
-    # Existing Products Seed (truncated for brevity, keeping logic)
-    products_count = await db["products"].count_documents({})
-    if products_count < 40:
-        await db["products"].delete_many({})
-        frontend_images_dir = os.path.join(os.path.dirname(__file__), "..", "frontend", "public", "images", "products")
-        products_seed = []
+    # Products Seed
+    frontend_images_dir = os.path.join(os.path.dirname(__file__), "..", "frontend", "public", "images", "products")
+    products_seed = []
+    
+    if os.path.exists(frontend_images_dir):
         categories = ["Weaving Parts", "Cutting Parts", "Motion Parts", "Jacquard Parts", "Dobby Parts", "Carriers", "Stop Motion", "Reeds"]
         brands = ["SOMET", "VAMATEX", "SULZER", "BONAS", "STAUBLI", "GENERAL"]
-        if os.path.exists(frontend_images_dir):
-            images = [f for f in os.listdir(frontend_images_dir) if f.startswith("p") and f.endswith(".png")]
-            import re
-            def atoi(text): return int(text) if text.isdigit() else text
-            def natural_keys(text): return [atoi(c) for c in re.split(r'(\d+)', text)]
-            images.sort(key=natural_keys)
-            for index, img_file in enumerate(images, start=1):
-                p = {
-                    "brand": brands[index % len(brands)],
-                    "name": f"Om Tex Assorted Part #{index}",
-                    "part_number": f"OT-PT-{index:03d}",
-                    "category": categories[index % len(categories)],
-                    "description": f"Quality part for weaving machines.",
-                    "is_featured": index <= 4,
-                    "image_url": f"/images/products/{img_file}",
-                    "product_no": index,
-                    "created_at": datetime.utcnow()
-                }
-                products_seed.append(p)
-        if products_seed:
-            await db["products"].insert_many(products_seed)
-            print("Seeded products")
+        images = [f for f in os.listdir(frontend_images_dir) if f.startswith("p") and f.endswith(".png")]
+        
+        import re
+        def atoi(text): return int(text) if text.isdigit() else text
+        def natural_keys(text): return [atoi(c) for c in re.split(r'(\d+)', text)]
+        images.sort(key=natural_keys)
+        
+        for index, img_file in enumerate(images, start=1):
+            p = {
+                "brand": brands[index % len(brands)],
+                "name": f"Om Tex Assorted Part #{index}",
+                "part_number": f"OT-PT-{index:03d}",
+                "category": categories[index % len(categories)],
+                "description": f"Quality part for weaving machines. Engineered for precision and durability.",
+                "is_featured": index <= 6, # Featured a few more
+                "image_url": f"/images/products/{img_file}",
+                "product_no": index,
+                "created_at": datetime.utcnow()
+            }
+            products_seed.append(p)
+    
+    # Only update database if we have data and count is off
+    current_count = await db["products"].count_documents({})
+    if products_seed and (current_count == 0 or current_count < len(products_seed)):
+        await db["products"].delete_many({})
+        await db["products"].insert_many(products_seed)
+        print(f"Successfully seeded {len(products_seed)} products.")
+    elif current_count > 0:
+        print(f"Database already has {current_count} products. Skipping seed.")
+    else:
+        print("Warning: No product images found. Database remains empty.")
 
     # NEW: Admin Users (replaces old users)
     if await db["admin_users"].count_documents({}) == 0:
