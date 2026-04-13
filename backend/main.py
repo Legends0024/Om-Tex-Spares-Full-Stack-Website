@@ -8,7 +8,10 @@ from seed import seed_data
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    await seed_data()
+    try:
+        await seed_data()
+    except Exception as e:
+        print(f"STARTUP ERROR during seed_data: {e}")
     yield
     # Shutdown
 

@@ -3,6 +3,6 @@ uvicorn[standard]
 motor
 pymongo
 PyJWT
-passlib[bcrypt]
+bcrypt
 python-dotenv
 pydantic[email]
