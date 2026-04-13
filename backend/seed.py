@@ -21,21 +21,25 @@ async def seed_data():
         brands = ["SOMET", "VAMATEX", "SULZER", "BONAS", "STAUBLI", "GENERAL"]
         
         if os.path.exists(frontend_images_dir):
-            images = [f for f in os.listdir(frontend_images_dir) if os.path.isfile(os.path.join(frontend_images_dir, f))]
-            # sort images alphabetically
-            images.sort()
+            images = [f for f in os.listdir(frontend_images_dir) if f.startswith("p") and f.endswith(".png")]
+            # Sort naturally so p1, p2, p10... works correctly
+            import re
+            def atoi(text): return int(text) if text.isdigit() else text
+            def natural_keys(text): return [atoi(c) for c in re.split(r'(\d+)', text)]
+            images.sort(key=natural_keys)
             
             for index, img_file in enumerate(images, start=1):
                 guessed_category = categories[index % len(categories)]
                 guessed_brand = brands[index % len(brands)]
                 
+                # Check if it's p{index}.png to keep everything perfectly aligned
                 p = {
                     "brand": guessed_brand,
                     "name": f"Om Tex Assorted Part #{index}",
                     "part_number": f"OT-PT-{index:03d}",
                     "category": guessed_category,
                     "description": f"Quality {guessed_category.lower()} for {guessed_brand} machines. Contact us with the part number for technical details.",
-                    "is_featured": index <= 4, # Feature first 4
+                    "is_featured": index <= 4,
                     "image_url": f"/images/products/{img_file}",
                     "product_no": index,
                     "created_at": datetime.utcnow()
